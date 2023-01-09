@@ -55,13 +55,65 @@ Mentre se prendiamo in considerazione solo i record etichettati come tossici
 
 ## **Preprocessing**
 
-### Pulizia dei dati
+Per poter operare dei dati bisogna prima effettuare delle operazioni di preprocessing.  
+Il nostor preprocessing consiste nel manipolare il dataset in modo da eliminare le informazioni inutili o peggio fuorvianti per la rete, oltre all'eliminazione dei dati quel che abbiamo fatto è andare ad aggiungere informazioni (es. POS Tag) e a semplificare le varie frasi (con la lemmatizazione).
 
-### Part of Speech Tagging & Lemmatizazione
+### **Pulizia dei dati**
 
-### Text Feature Extraction
+La pulizia dei dati si è divisa in vari sottopassaggi.  
+Avendo come dominio il linguaggio naturale dobbiamo tenere conto di tutte le possibili variazioni che possono creare del rumore all'interno del dataset.
 
-### TD-IDF
+Come prima cosa abbiamo portato tutto il dataset in **caratteri minuscoli**, in quanto le lettere maiuscole sono caratteri diversi che veicolano le stesse informazioni di quelli minuscoli.
+
+Dopo di che abbiamo fatto un primo passaggio di standardizzazione del linguaggio **eliminando tutte le contrazioni** presenti in lingua inglese e ponendole in forma estesa (es. "*you're*" -> "*you are*").
+
+Insieme all'eliminazione delle contrazioni abbiamo la **pulizia dello slang** solito dell'internet, andando a sostituire tutte quelle sigle, forme contratte ed abbreviazioni con la loro controparte "canonica" (es. "*m8*" -> "*mate*").
+
+Dopo di che si è passati all'**eliminazione di tutti i caratteri speciali**, in particolare parliamo di simboli, link, tag HTML, caratteri non ASCII.  
+Si è deciso quindi di eliminare anche la punteggiatura.
+
+Infine è giunto il momento di **togliere le stopwords**, cioé tutte quelle parole di circostanza che aiutano nella forma ma non veicolano nessuna informazione utile.
+
+Una volta fatto ciò si sono **eliminati quegli ultimi tag rimasti** (es. \r e \n), **i caratteri di spazio ridondanti e quelli ad inizio e fine riga**.
+
+<br>
+
+Questa pulizia è stata eseguita sia sul train set, sia sul test set.  
+Qui alcuni esempi prima e dopo la pulizia:
+| **Testo originale**                               	| **Testo pulito**                                  	|
+|---------------------------------------------------	|---------------------------------------------------	|
+| Explanation\r\nWhy the edits made under my use... 	| explanation why edits made username hardcore m... 	|
+| COCKSUCKER BEFORE YOU PISS AROUND ON MY WORK      	| cocksucker piss around work                       	|
+| I don't anonymously edit articles at all.         	| anonymously edit articles                         	|
+| D'aww! He matches this background colour I'm s... 	| daww matches background colour seemingly stuck... 	|
+| Please do not add nonsense to Wikipedia. Such ... 	| please add nonsense wikipedia edits considered... 	|
+
+<br>
+
+### **Part of Speech Tagging & Lemmatizazione**
+Successivamente alla pulizia del testo si può procedere al Part of Speech Tagging, cioè quell'operazione che associa ad ogni parola un tab tra i seguenti:
+- N: noun (nome)
+- V: verb (verbo)
+- J: adj (aggettivo)
+- R: adv (avverbio)
+
+Questo permette all'operazione successiva, la lemmatizazione, di avvenire in maniera migliore.
+
+La lemmatizazione è quell'operazione che porta tutti i sostantivi alla forme base, per esempio i verbi vengono tutti portati all'infinito e gli aggettivi vengono portati tutti alla forma base, andando a modificare eventuali superlativi etc.  
+Abbiamo scelto di effettuare la lemmatizazione anziché solo uno stemming in quanto abbiamo valutato che per i nostri scopi informazioni come il tempo verbale non fossero rilevanti, anzi usare più parole per veicolare lo stesso messaggio avrebbe solo aggiunto rumore al nostro dataset.
+
+Alcuni esempi:
+| **Testo originale**                               | **Testo pulito**                                  | **POS Tag**                                       | **Lem**                                           |
+|---------------------------------------------------|---------------------------------------------------|---------------------------------------------------|---------------------------------------------------|
+| Hey man, I'm really not trying to edit war. It... | hey man really trying edit war guy constantly ... | [(hey, n), (man, n), (really, r), (trying, v),... | hey man really try edit war guy constantly rem... |
+| Yes, because the mother of the child in the ca... | yes mother child case michael jackson studied ... | [(yes, n), (mother, n), (child, n), (case, n)...  | yes mother child case michael jackson study mo... |
+| Before you start throwing accusations and warn... | start throwing accusations warnings let us rev... | [(start, v), (throwing, v), (accusations, n), ... | start throw accusation warning let u review ed... |
+| The Mitsurgi point made no sense - why not ar...  | mitsurugi point made sense argue include hindi... | [(mitsurugi, n), (point, n), (made, v), (sense... | mitsurgi point make sense argue include hindi...  |
+| Don't mean to bother you \r\n\r\ni see that yo... | mean bother i see writing something regarding ... | [(mean, v), (bother, n), (i, n), (see, v), (wr... | mean bother i see write something regarding re... |
+
+### **Text Feature Extraction**
+
+### **TD-IDF**
 
 ---
 ## **Creazione del modello e Fine Tuning**
