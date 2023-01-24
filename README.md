@@ -111,9 +111,28 @@ Alcuni esempi:
 | The Mitsurgi point made no sense - why not ar...  | mitsurugi point made sense argue include hindi... | [(mitsurugi, n), (point, n), (made, v), (sense... | mitsurgi point make sense argue include hindi...  |
 | Don't mean to bother you \r\n\r\ni see that yo... | mean bother i see writing something regarding ... | [(mean, v), (bother, n), (i, n), (see, v), (wr... | mean bother i see write something regarding re... |
 
+<br>
+
 ### **Text Feature Extraction**
 
+Cacca
+
+<br>
+
 ### **TD-IDF**
+
+Come ultimo passo del pre-processing viene calcolata la TD-IDF (term frequency-inverse document frequency), una metrica utilizzata per valutare l'importanza di una parola all'interno di un documento rispetto ad un insieme di documenti. Questa è una metrica che viene utilizzata principalmente nell'analisi del testo e nella ricerca dell'informazione.  
+La metrica combina due elementi: la frequenza del termine (term frequency, TF) e la frequenza inversa del documento (inverse document frequency, IDF).
+
+La frequenza del termine (TF) rappresenta il numero di volte in cui un termine compare in un documento. Più un termine è presente in un documento, maggiore sarà la sua frequenza.
+
+La frequenza inversa del documento (IDF) tiene in considerazione la rarità di un termine all'interno di un insieme di documenti. Più un termine è raro all'interno di un insieme di documenti, maggiore sarà la sua frequenza inversa.
+
+La metrica TD-IDF combina questi due elementi per valutare l'importanza relativa di un termine all'interno di un documento rispetto ad un insieme di documenti. Un termine con una elevata frequenza all'interno di un documento e una bassa frequenza all'interno di un insieme di documenti avrà un alto valore TD-IDF. Ciò significa che il termine è rilevante per il documento ma poco comune negli altri documenti. Mentre un termine che compare in tutti i documenti avrà un basso valore TD-IDF, in quanto è poco caratterizzante e risulta come una "*costante*" in tutti i documenti che può essere "*semplificata*".
+
+TD-IDF utilizzato spesso per filtrare i termini poco significativi dai documenti, identificare i termini chiave in un documento o gruppo di documenti e anche come feature per algoritmi di apprendimento automatico come classificazione di testo o clustering.
+
+<br>
 
 ---
 ## **Creazione del modello e Fine Tuning**
