@@ -37,7 +37,7 @@ Il dataset di partenza è stato preso da una [challenge](https://www.kaggle.com/
 
 ## **⚙️ Utilizzo del progetto**
 
-Se si vuole utilizzare utilizzare la demo per la classificazione dei commenti bisogna installare le dipendenze del progetto con il comando:
+Se si vuole utilizzare la demo per la classificazione dei commenti bisogna installare le dipendenze del progetto nel proprio virtual enviroment con il comando:
     
 ```bash
 pip install -r requirements.txt
@@ -49,7 +49,7 @@ python demo.py
 ```
 Verrà chiesto di inserire un commento, il quale verrà classificato in base al modello già addestrato presente nella repository.
 
-Se si riprodurre l'esperimento con BERT da zero sarà necessario aprire il notebook [`./Bert_multilabel.ipynb`](https://github.com/alessandraperniciano/DLA-sentiment-analysis-wikipedia-comments/blob/main/Bert_multilabel.ipynb) ed eseguire ogni blocco.  
+Se si vuole riprodurre l'esperimento con BERT da zero sarà necessario aprire il notebook [`./Bert_multilabel.ipynb`](https://github.com/alessandraperniciano/DLA-sentiment-analysis-wikipedia-comments/blob/main/Bert_multilabel.ipynb) ed eseguire ogni blocco.  
 Se invece si vuole riprodurre l'altro esperimento sarà necessario aprire il notebook [`./neural_network.ipynb`]() ed eseguire ogni blocco.
 
 <br><br>
