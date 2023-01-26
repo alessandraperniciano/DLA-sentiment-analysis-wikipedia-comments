@@ -13,17 +13,44 @@ Per raggiungere l'obiettivo sono stati utilizzati Python e tool come PyTorch e B
 
 Il dataset di partenza è stato preso da una [challenge](https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge/) pubblicata su [Kaggle](https://www.kaggle.com/) nel 2018 da [Jigsaw](https://jigsaw.google.com/)
 
-Table of Contents
-1. [Dominio e analisi dei dati](#dominio_e_analisi)
-1. [Preprocessing](#preprocessing)
-    - [Subsampling del dataset](#subsampling)
-    - [Pulizia dei dati](#pulizia)
-    - [Part of Speech Tagging & Lemmatizazione](#POSTagging_lemmatizzazione)
-1. [Creazione del modello e Fine Tuning](#modello_finetuning)
-    - [Preprocessing per BERT](#preprocessing_BERT)
-    - [Inizializzaizone del modello e training](#inizializzazione_training)
-1. [Risultati](#risultati)
+<br>
 
+>**Table of Contents**
+>1. [Utilizzo](#utilizzo)
+>1. [Dominio e analisi dei dati](#dominio_e_analisi)
+>1. [Preprocessing](#preprocessing)
+>    - [Subsampling del dataset](#subsampling)
+>    - [Pulizia dei dati](#pulizia)
+>    - [Part of Speech Tagging & Lemmatizazione](#POSTagging_lemmatizzazione)
+>1. [Creazione del modello e Fine Tuning](#modello_finetuning)
+>    - [Preprocessing per BERT](#preprocessing_BERT)
+>    - [Inizializzaizone del modello e training](#inizializzazione_training)
+>1. [Risultati](#risultati) 
+
+<br><br>
+
+---
+
+<br>
+
+<a name="utilizzo"></a>
+
+## **⚙️ Utilizzo del progetto**
+
+Se si vuole utilizzare utilizzare la demo per la classificazione dei commenti bisogna installare le dipendenze del progetto con il comando:
+    
+```bash
+pip install -r requirements.txt
+```
+Dopodiché è possibile lanciare la demo con il comando:
+    
+```bash
+python demo.py
+```
+Verrà chiesto di inserire un commento, il quale verrà classificato in base al modello già addestrato presente nella repository.
+
+Se si riprodurre l'esperimento con BERT da zero sarà necessario aprire il notebook [`./Bert_multilabel.ipynb`](https://github.com/alessandraperniciano/DLA-sentiment-analysis-wikipedia-comments/blob/main/Bert_multilabel.ipynb) ed eseguire ogni blocco.  
+Se invece si vuole riprodurre l'altro esperimento sarà necessario aprire il notebook [`./neural_network.ipynb`]() ed eseguire ogni blocco.
 
 <br><br>
 
@@ -67,6 +94,7 @@ Di seguito le parole più comuni nell'intero dataset e quelle più comuni per og
 <br><br>
 
 ---
+
 <br>
 
 <a name="preprocessing"></a>
