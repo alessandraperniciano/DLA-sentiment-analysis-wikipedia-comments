@@ -36,17 +36,19 @@ Ogni commento può avere zero o più tra le seguenti label apportate da moderato
 
 Come possiamo vedere dagli istogrammi qui sotto siamo davanti ad un dataset altamente sbilanciato (in quanto la maggior parte degli utenti su internet non è tossica):
 
-![Distribuzione](./images/distribution.png)
+
+<p align="center">
+    <img src="./images/distribution.png" alt="distribuzione" width="800"/>
+</p>
 
 <br>
 
-Di seguito le parole più comuni nel dataset  
+Di seguito le parole più comuni nell'intero dataset e quelle più comuni per ogni etichettà
 
-![WordCloud_General](./images/general_wordcloud.png)
-
-Mentre se prendiamo in considerazione solo i record etichettati come tossici  
-
-![WordCloud_Toxic](./images/toxic_wordcloud.png)
+<p align="center">
+    <img src="./images/general_wordcloud.png" alt="word cloud dataset" width="800">
+    <img src="./images/toxic_wordcloud.png" alt="word cloud subset" width="800">
+</p>
 
 <br><br>
 
@@ -141,7 +143,9 @@ I modelli originali sono stati addestrati su BookCorpus e su Wikipedia in lingua
 - BERT<sub>BASE</sub>: 12 encoder, ciascuno dei quali prevede *12 bidirectional self-attention heads*
 - BERT<sub>LARGE</sub>: 24 encoder, ciascuno dei quali prevede *16 bidirectional self-attention heads*
 
-![Bert Structure](./images/BERT_structure.png)
+<p align="center">
+    <img src="./images/BERT_structure.png" alt="bert structure" width="800">
+</p>
 
 Il modello specifico che abbiamo selezionato per il nostro progetto è "*BERT<sub>BASE</sub> - uncased*".  
 Questo modello ha le stesse caratteristiche di BERT<sub>BASE</sub> ma è stato addestrato su un vocabolario totalmente in minuscolo, quindi risulta non essere case-sensitive.  
@@ -149,7 +153,9 @@ BERT<sub>BASE</sub> - uncased ha 12 livelli di encoder, 768 hidden layers, 12 at
 
 >In presenza di GPU Nvidia la nostra implementazione è compatibile con le accellerazioni CUDA.
 
-### Preprocessing per BERT
+<br>
+
+### **🎟️ Preprocessing per BERT**
 Il preprocessing specifico per BERT prevede l'aggiunta di un token speciale all'inizio e alla fine di ogni frase, dopodiché si fa il padding/troncamento di ogni frase per avere una singola lunghezza costante di token. I token reali poi vengono differenziati dai token di padding attraverso una *attention mask*.
 
 I parametri che si possono cambiare sono i seguenti (insieme ai valori impostati da noi):
@@ -159,11 +165,13 @@ I parametri che si possono cambiare sono i seguenti (insieme ai valori impostati
 - truncation = True
 - return_attention_mask = True
 
-![BERT Tokenization](./images/BERT_tokenizer.png)
+<p align="center">
+    <img src="./images/BERT_tokenizer.png" alt="bert tokenization" width="800">
+</p>
 
 <br>
 
-### Inizializzazione del modello e training
+### **🏋🏻 Inizializzazione del modello e training**
 L'ottimizzatore scelto è AdamW, una versione dell'ottimizzatore Adam. Nello specifico Adam (ADaptive Moment Estimation) combina l'idea del momentum con quella del Root Mean Squared Prop (RMSProp) e dunque permette di avere il momentum nelle direzioni dove il gradiente è sempre lo stesso e di smorzarlo quando fluttua in presenza di varianza. In generale ci si sta spostando verso versioni di Adam, come AdamW, in quanto riducono il rischio di overfitting.
 Ad AdamW sono stati passati gli iperparametri di BERT e sono stati impostati un *learning rate* pari a *1<sup>-4<sup>* e un *epsilon* pari a *1<sup>-8<sup>*.
 
@@ -185,7 +193,11 @@ Di seguito i risultati:
 
 <br>
 
-### Risultati
+---
+
+<br>
+
+## **🔍 Risultati**
 Dopo aver concluso l'addestramento del modello siamo passati alla sua valutazione con l'ausilio del test set, producendo i seguenti risultati:
 - Accuracy: 0.9563951504077207
 - Hamming score: 0.8307334246963753
