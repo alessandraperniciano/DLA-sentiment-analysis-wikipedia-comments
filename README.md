@@ -37,7 +37,7 @@ Il dataset di partenza è stato preso da una [challenge](https://www.kaggle.com/
 
 ## **⚙️ Utilizzo del progetto**
 
-Se si vuole utilizzare utilizzare la demo per la classificazione dei commenti bisogna installare le dipendenze del progetto con il comando:
+Se si vuole utilizzare la demo per la classificazione dei commenti bisogna installare le dipendenze del progetto nel proprio virtual enviroment con il comando:
     
 ```bash
 pip install -r requirements.txt
