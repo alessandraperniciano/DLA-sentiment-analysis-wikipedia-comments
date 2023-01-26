@@ -13,12 +13,24 @@ Per raggiungere l'obiettivo sono stati utilizzati Python e tool come PyTorch e B
 
 Il dataset di partenza è stato preso da una [challenge](https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge/) pubblicata su [Kaggle](https://www.kaggle.com/) nel 2018 da [Jigsaw](https://jigsaw.google.com/)
 
+Table of Contents
+1. [Dominio e analisi dei dati](#dominio_e_analisi)
+1. [Preprocessing](#preprocessing)
+    - [Subsampling del dataset](#subsampling)
+    - [Pulizia dei dati](#pulizia)
+    - [Part of Speech Tagging & Lemmatizazione](#POSTagging_lemmatizzazione)
+1. [Creazione del modello e Fine Tuning](#modello_finetuning)
+    - [Preprocessing per BERT](#preprocessing_BERT)
+    - [Inizializzaizone del modello e training](#inizializzazione_training)
+1. [Risultati](#risultati)
+
+
 <br><br>
 
 ---
 <br>
 
-## **📊 Dominio ed analisi dei dati**
+## **📊 Dominio ed analisi dei dati** <a name="dominio_e_analisi"></a>
 
 [Wikipedia](https://www.wikipedia.org/) oltre ad essere "*l'enciclopedia universale online*" integra al suo interno una struttura stile social-network in cui la community del sito può interagire e curare le pagine del sito.
 
@@ -55,14 +67,14 @@ Di seguito le parole più comuni nell'intero dataset e quelle più comuni per og
 ---
 <br>
 
-## **🧮 Preprocessing**
+## **🧮 Preprocessing** <a name="preprocessing"></a>
 
 Per poter operare dei dati bisogna prima effettuare delle operazioni di preprocessing.  
 Il nostro preprocessing consiste nel manipolare il dataset in modo da eliminare le informazioni inutili o peggio fuorvianti per la rete, oltre all'eliminazione dei dati quel che abbiamo fatto è andare ad aggiungere informazioni (es. POS Tag) e a semplificare le varie frasi (con la lemmatizazione).
 
 <br>
 
-### **✂️ Subsampling del dataset**
+### **✂️ Subsampling del dataset** <a name="subsampling"></a>
 
 Il dataset risulta essere molto sbilanciato, per questo motivo è stato optato per un subsampling della classe dominante, che risulta essere quella con tutte le classi poste a zero.  
 Si è scelto di utilizzare la proporzione 50/50, dove metà del dataset risultano essere commenti "puliti", mentre l'altra metà dei record ha un qualche grado di tossicità.
@@ -77,7 +89,7 @@ Il dataset è sceso a 32450 record, di cui:
 
 <br>
 
-### **🧹 Pulizia dei dati**
+### **🧹 Pulizia dei dati** <a name="pulizia"></a>
 
 La pulizia dei dati si è divisa in vari sottopassaggi.  
 Avendo come dominio il linguaggio naturale dobbiamo tenere conto di tutte le possibili variazioni che possono creare del rumore all'interno del dataset.
@@ -107,7 +119,7 @@ Qui alcuni esempi del prima e del dopo la pulizia:
 
 <br>
 
-### **📑 Part of Speech Tagging & Lemmatizazione**
+### **📑 Part of Speech Tagging & Lemmatizzazione** <a name="POSTagging_lemmatizzazione"></a>
 Successivamente alla pulizia del testo si può procedere al **Part of Speech Tagging**, cioè quell'operazione che associa ad ogni parola un tag tra i seguenti:
 - N: noun (nome)
 - V: verb (verbo)
@@ -135,7 +147,7 @@ Alcuni esempi:
 
 <br>
 
-## **🧪 Creazione del modello e Fine Tuning**
+## **🧪 Creazione del modello e Fine Tuning** <a name="modello_finetuning"></a>
 Il modello scelto è stato **BERT (Bidirectional Encoder Representation from Transformers)** a cui è stato sottoposto un fine tuning.  
 BERT è un modello basato sui transformer utilizzato nell'elaborazione del linguaggio naturale presentato da Google nel 2018 e che dal 2019 è stato integrato nel suo motore di ricerca.
 
@@ -155,7 +167,7 @@ BERT<sub>BASE</sub> - uncased ha 12 livelli di encoder, 768 hidden layers, 12 at
 
 <br>
 
-### **🎟️ Preprocessing per BERT**
+### **🎟️ Preprocessing per BERT** <a name="preprocessing_BERT"></a>
 Il preprocessing specifico per BERT prevede l'aggiunta di un token speciale all'inizio e alla fine di ogni frase, dopodiché si fa il padding/troncamento di ogni frase per avere una singola lunghezza costante di token. I token reali poi vengono differenziati dai token di padding attraverso una *attention mask*.
 
 I parametri che si possono cambiare sono i seguenti (insieme ai valori impostati da noi):
@@ -171,7 +183,7 @@ I parametri che si possono cambiare sono i seguenti (insieme ai valori impostati
 
 <br>
 
-### **🏋🏻 Inizializzazione del modello e training**
+### **🏋🏻 Inizializzazione del modello e training** <a name="inizializzazione_training"></a>
 L'ottimizzatore scelto è AdamW, una versione dell'ottimizzatore Adam. Nello specifico Adam (ADaptive Moment Estimation) combina l'idea del momentum con quella del Root Mean Squared Prop (RMSProp) e dunque permette di avere il momentum nelle direzioni dove il gradiente è sempre lo stesso e di smorzarlo quando fluttua in presenza di varianza. In generale ci si sta spostando verso versioni di Adam, come AdamW, in quanto riducono il rischio di overfitting.
 Ad AdamW sono stati passati gli iperparametri di BERT e sono stati impostati un *learning rate* pari a *1<sup>-4<sup>* e un *epsilon* pari a *1<sup>-8<sup>*.
 
@@ -197,7 +209,7 @@ Di seguito i risultati:
 
 <br>
 
-## **🔍 Risultati**
+## **🔍 Risultati** <a name="risultati"></a>
 Dopo aver concluso l'addestramento del modello siamo passati alla sua valutazione con l'ausilio del test set, producendo i seguenti risultati:
 - Accuracy: 0.9563951504077207
 - Hamming score: 0.8307334246963753
