@@ -9,14 +9,18 @@
 
 Questo progetto universitario si pone l'obiettivo di creare un modello con l'ausilio dei transformers in grado di classificare la tossicità dei commenti su [Wikipedia](https://www.wikipedia.org/).
 
-Per raggiungere l'obiettivo sono stati utilizzati Python e tool come PyTorch e BERT.
+Sono stati effettuati due esperimenti, uno con un classificatore basato su [BERT](https://arxiv.org/abs/1810.04805) e uno con un classificatore basato su una rete neurale LSTM. Entrambi gli esperimenti sono stati implementati in Python, il primo con l'ausilio di [PyTorch](https://pytorch.org) e il secondo con [Tensorflow](https://www.tensorflow.org/).
 
-Il dataset di partenza è stato preso da una [challenge](https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge/) pubblicata su [Kaggle](https://www.kaggle.com/) nel 2018 da [Jigsaw](https://jigsaw.google.com/)
+Per entrambi gli esperimenti è stato utilizzato il dataset [Toxic Comment Classification Challenge](https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge/) pubblicato su [Kaggle](https://www.kaggle.com/) nel 2018 da [Jigsaw](https://jigsaw.google.com/).  
 
 <br>
 
 >**Table of Contents**
 >1. [Utilizzo](#utilizzo)
+>    - [Setup delle venv tramite script](#setup_venv_script)
+>    - [Setup delle venv manuale](#setup_venv_manuale)
+>    - [Utilizzo delle demo](#demo)
+>    - [Riproduzione degli esperimenti](#esperimenti)
 >1. [Dominio e analisi dei dati](#dominio_e_analisi)
 >1. [Preprocessing](#preprocessing)
 >    - [Subsampling del dataset](#subsampling)
@@ -53,9 +57,15 @@ Compatibilità con i sistemi operativi:
 
 <br>
 
-Per provare le demo dei classificatori o riprodurre gli esperimenti con relativo addestramento è necessario creare un virtual enviroment per l'esperimento con BERT e un virtual enviroment per l'esperimento con la rete neurale LSTM.
+Sono messi a disposizione in questa repository i notebook con cui sono stati condotti gli esperimenti e degli script per poter provare i classificatori già addestrati. Per poter utilizzare notebook e script sarà necessario creare due virtual enviroment distinti, uno per ogni esperimento (e corrispettiva demo), in quanto le dipendenze sono differenti per ognuno dei due.
+
+Le demo messe a disposizione per provare i classificatori già addestrati sono [`try_BERT.py`]() e [`try_NN.py`](), rispettivamente per il classficatore basato su BERT e quello basato su rete LSTM.
 
 <br>
+
+<a name="setup_venv_script"></a>
+
+### **🔩 Setup delle venv tramite script**
 
 Una volta clonata questa repository, tramite terminale bash è necessario spostarsi nella cartella della repository
 ```bash
@@ -63,7 +73,7 @@ cd <path_to_this_repo>
 ```
 Dopodiché è possibile creare entrambe le venv utilizzando lo script `setupVenvs.sh`:
 ```bash
-./setupVenvs.sh
+./setup_venvs.sh
 ```
 
 <br>
@@ -99,6 +109,10 @@ python3 try_NN.py
 ```
 
 <br>
+
+<a name="setup_venv_manuale"></a>
+
+### **🛠️ Setup delle venv manuale**
 
 Se si vuole creare manualmente le venv per BERT è possibile farlo con i seguenti comandi:
 ```bash
@@ -144,12 +158,30 @@ Verrà chiesto di inserire un commento, il quale verrà classificato in base al 
 
 <br>
 
-Per disattivare la venv attiva al momento è necessario eseguire il comando `deactivate` sul terminale, dopodiché è possibile attivare la venv desiderata con i comandi visti sopra *(saltando la parte di creazione della venv se già effettuata)*.
+<a name="demo"></a>
+
+### **🪄 Utilizzo delle demo**
+Una volta entrati all'interno della venv si può far partire la demo per utilizzare il classificatore già addestrato corrispettivo:  
+
+BERT (`.venvBERT`):  
+```bash
+python3 try_BERT.py
+```  
+NN (`.venvNN`):  
+```bash
+python3 try_NN.py
+```
+
+>Per disattivare la venv attiva al momento è necessario eseguire il comando `deactivate` sul terminale, dopodiché è possibile attivare la venv desiderata con i comandi visti sopra *(saltando la parte di creazione della venv se già effettuata)*.
 
 <br>
 
-Se si vuole riprodurre l'esperimento con BERT da zero sarà necessario aprire il notebook [`./Bert_multilabel.ipynb`](https://github.com/alessandraperniciano/DLA-sentiment-analysis-wikipedia-comments/blob/main/Bert_multilabel.ipynb) ed eseguire ogni blocco.  
-Se invece si vuole riprodurre l'altro esperimento sarà necessario aprire il notebook [`./neural_network.ipynb`]() ed eseguire ogni blocco.
+<a name="esperimenti"></a>
+
+### **🧪 Riproduzione degli esperimenti**
+
+Se si vuole riprodurre l'esperimento con BERT da zero sarà necessario aprire il notebook [`BERT_multilabel.ipynb`](https://github.com/alessandraperniciano/DLA-sentiment-analysis-wikipedia-comments/blob/main/Bert_multilabel.ipynb) ed eseguire ogni blocco.  
+Se invece si vuole riprodurre l'altro esperimento sarà necessario aprire il notebook [`neural_network.ipynb`]() ed eseguire ogni blocco.
 
 <br><br>
 
@@ -358,10 +390,6 @@ Di seguito i risultati dell'addestramento:
 La rete neurale che abbiamo implementato è una LSTM (Long Short-Term Memory) bidirezionale, che è una variante della LSTM classica.
 La LSTM bidirezionale è una rete neurale ricorrente che utilizza due LSTM, una per ogni direzione, per processare una sequenza di input. Questo permette alla rete di utilizzare informazioni sia da sinistra a destra che da destra a sinistra, in modo da poter prevedere meglio il prossimo token a prescindere dalla lunghezza della sequenza dei token.
 
-<p align="center">
-    <img src="./images/NN_structure.png" alt="nn structure" width="800">
-</p>
-
 <br>
 
 <a name="nn_preprocessing"></a>
@@ -374,7 +402,7 @@ Successivamente il metodo `.texts_to_sequences()` è stato utilizzato per conver
 
 Dopo questa operazione abbiamo utilizzato il metodo `.pad_sequences()` per fare un padding (o troncare) alle sequenze di input, in modo che risultino tutte della stessa lunghezza e da poterle utilizzare come input per la rete neurale.
 
-A questo punto si può creare una matrice di embedding utilizzando i pesi pre-addestrati di GloVe, in modo da rappresentare le parole in un vettore di dimensione fissa.  
+A questo punto si può creare una matrice di embedding utilizzando i pesi pre-addestrati di [GloVe](https://nlp.stanford.edu/projects/glove/), in modo da rappresentare le parole in un vettore di dimensione fissa.  
 GloVe è un modello di embedding che è stato addestrato su un corpus di testo molto grande, in modo da poter ottenere embedding di alta qualita.  
 I pesi pre-addestrati di GloVe che abbiamo utilizzato sono stati reperiti dal [sito ufficiale](https://nlp.stanford.edu/projects/glove/) del progetto.
 
