@@ -42,10 +42,14 @@ Il dataset di partenza è stato preso da una [challenge](https://www.kaggle.com/
 
 Dopo aver clonato la repository, se si vuole utilizzare la demo per la classificazione dei commenti bisogna installare le dipendenze del progetto nel proprio virtual enviroment.
 
-Le compatibilità:
-- Windows 10/11 *(testata tramite terminale GitBash)*
-- MacOS *(solo con processore Intel)*
-- Linux *(teorica, non testata)*
+Compatibilità con i sistemi operativi:
+- Windows 10/11
+    - *testato con terminale GitBash*
+- MacOS
+    - *compatibità solo con Mac dotati di architettura x86 (processori Intel)*
+    - *sono presenti delle incompatibilità nelle dipendenze nel momento in cui si cerca di installarle su Mac dotati di architettura ARM (processori M1, M2... e relative varianti)*
+- Linux
+    - *compatibilità teorica, non testata*
 
 <br>
 
@@ -65,14 +69,15 @@ Dopodiché è possibile creare entrambe le venv utilizzando lo script `setupVenv
 <br>
 
 Questo script creerà due cartelle `.venvBERT` e `.venvNN` contenenti le rispettive venv. Una volta create le venv è possibile attivarle con i seguenti comandi:
-- Windows:
+
+Windows:
 ```bash
 source .venvBERT/Scripts/activate
 ```
 ```bash
 source .venvNN/Scripts/activate
 ```
-- MacOS:
+MacOS:
 ```bash
 source .venvBERT/bin/activate
 ```
@@ -83,14 +88,17 @@ source .venvNN/bin/activate
 <br>
 
 Una volta entrati all'interno della venv si può far partire la demo per utilizzare il classificatore già addestrato corrispettivo:  
-- BERT:  
+
+BERT:  
 ```bash
 python3 try_BERT.py
 ```  
-- NN:  
+NN:  
 ```bash
 python3 try_NN.py
 ```
+
+<br>
 
 Se si vuole creare manualmente le venv per BERT è possibile farlo con i seguenti comandi:
 ```bash
