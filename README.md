@@ -22,9 +22,12 @@ Il dataset di partenza è stato preso da una [challenge](https://www.kaggle.com/
 >    - [Subsampling del dataset](#subsampling)
 >    - [Pulizia dei dati](#pulizia)
 >    - [Part of Speech Tagging & Lemmatizazione](#POSTagging_lemmatizzazione)
->1. [Creazione del modello e Fine Tuning](#modello_finetuning)
->    - [Preprocessing per BERT](#preprocessing_BERT)
->    - [Inizializzaizone del modello e training](#inizializzazione_training)
+>1. [Transformers - BERT](#bert)
+>    - [Preprocessing per BERT](#bert_preprocessing)
+>    - [Fine Tuning e Training di BERT](#bert_training)
+>1. [Rete Neurale - LSTM](#nn)
+>    - [Preprocessing per la rete neurale](#nn_preprocessing)
+>    - [Fine Tuning e Training della rete](#nn_training)
 >1. [Risultati](#risultati) 
 
 <br><br>
@@ -37,17 +40,105 @@ Il dataset di partenza è stato preso da una [challenge](https://www.kaggle.com/
 
 ## **⚙️ Utilizzo del progetto**
 
-Se si vuole utilizzare la demo per la classificazione dei commenti bisogna installare le dipendenze del progetto nel proprio virtual enviroment con il comando:
-    
+Dopo aver clonato la repository, se si vuole utilizzare la demo per la classificazione dei commenti bisogna installare le dipendenze del progetto nel proprio virtual enviroment.
+
+Le compatibilità:
+- Windows 10/11 *(testata tramite terminale GitBash)*
+- MacOS *(solo con processore Intel)*
+- Linux *(teorica, non testata)*
+
+<br>
+
+Per provare le demo dei classificatori o riprodurre gli esperimenti con relativo addestramento è necessario creare un virtual enviroment per l'esperimento con BERT e un virtual enviroment per l'esperimento con la rete neurale LSTM.
+
+<br>
+
+Una volta clonata questa repository, tramite terminale bash è necessario spostarsi nella cartella della repository
 ```bash
-pip install -r requirements.txt
+cd <path_to_this_repo>
+```
+Dopodiché è possibile creare entrambe le venv utilizzando lo script `setupVenvs.sh`:
+```bash
+./setupVenvs.sh
+```
+
+<br>
+
+Questo script creerà due cartelle `.venvBERT` e `.venvNN` contenenti le rispettive venv. Una volta create le venv è possibile attivarle con i seguenti comandi:
+- Windows:
+```bash
+source .venvBERT/Scripts/activate
+```
+```bash
+source .venvNN/Scripts/activate
+```
+- MacOS:
+```bash
+source .venvBERT/bin/activate
+```
+```bash
+source .venvNN/bin/activate
+```
+
+<br>
+
+Una volta entrati all'interno della venv si può far partire la demo per utilizzare il classificatore già addestrato corrispettivo:  
+- BERT:  
+```bash
+python3 try_BERT.py
+```  
+- NN:  
+```bash
+python3 try_NN.py
+```
+
+Se si vuole creare manualmente le venv per BERT è possibile farlo con i seguenti comandi:
+```bash
+cd <path_to_this_repo>
+
+python3 -m venv .venvBERT
+
+#MAC:
+source .venvBERT/bin/activate
+#Windows:
+source .venvBERT/Scripts/activate
+
+pip3 install -r requirementsBERT.txt
 ```
 Dopodiché è possibile lanciare la demo con il comando:
     
 ```bash
-python demo.py
+python3 try_BERT.py
 ```
 Verrà chiesto di inserire un commento, il quale verrà classificato in base al modello già addestrato presente nella repository.
+
+<br>
+
+Per quanto riguarda la creazione manuale della venv per la rete neurale LSTM, i comandi da eseguire sono:
+```bash
+cd <path_to_this_repo>
+
+python3 -m venv .venvNN
+
+#MAC:
+source .venvNN/bin/activate
+#Windows:
+source .venvNN/Scripts/activate
+
+pip3 install -r requirementsNN.txt
+```
+Dopodiché è possibile lanciare la demo con il comando:
+    
+```bash
+python3 try_NN.py
+```
+Verrà chiesto di inserire un commento, il quale verrà classificato in base al modello già addestrato presente nella repository.
+
+<br>
+
+Per disattivare la venv attiva al momento è necessario eseguire il comando `deactivate` sul terminale, dopodiché è possibile attivare la venv desiderata con i comandi visti sopra *(saltando la parte di creazione della venv se già effettuata)*.
+
+<br>
 
 Se si vuole riprodurre l'esperimento con BERT da zero sarà necessario aprire il notebook [`./Bert_multilabel.ipynb`](https://github.com/alessandraperniciano/DLA-sentiment-analysis-wikipedia-comments/blob/main/Bert_multilabel.ipynb) ed eseguire ogni blocco.  
 Se invece si vuole riprodurre l'altro esperimento sarà necessario aprire il notebook [`./neural_network.ipynb`]() ed eseguire ogni blocco.
@@ -102,7 +193,7 @@ Di seguito le parole più comuni nell'intero dataset e quelle più comuni per og
 ## **🧮 Preprocessing**
 
 Per poter operare dei dati bisogna prima effettuare delle operazioni di preprocessing.  
-Il nostro preprocessing consiste nel manipolare il dataset in modo da eliminare le informazioni inutili o peggio fuorvianti per la rete, oltre all'eliminazione dei dati quel che abbiamo fatto è andare ad aggiungere informazioni (es. POS Tag) e a semplificare le varie frasi (con la lemmatizazione).
+Il nostro preprocessing consiste nel manipolare il dataset in modo da eliminare le informazioni inutili o peggio fuorvianti per la rete, oltre all'eliminazione dei dati quel che abbiamo fatto è andare ad aggiungere informazioni (es. POS Tag) e semplificare le varie frasi (con la lemmatizazione).
 
 <br>
 
@@ -185,9 +276,9 @@ Alcuni esempi:
 
 <br>
 
-<a name="modello_finetuning"></a>
+<a name="bert"></a>
 
-## **🧪 Creazione del modello e Fine Tuning**
+## **🧪 Transformers - BERT**
 Il modello scelto è stato **BERT (Bidirectional Encoder Representation from Transformers)** a cui è stato sottoposto un fine tuning.  
 BERT è un modello basato sui transformer utilizzato nell'elaborazione del linguaggio naturale presentato da Google nel 2018 e che dal 2019 è stato integrato nel suo motore di ricerca.
 
@@ -207,7 +298,7 @@ BERT<sub>BASE</sub> - uncased ha 12 livelli di encoder, 768 hidden layers, 12 at
 
 <br>
 
-<a name="preprocessing_BERT"></a>
+<a name="bert_preprocessing"></a>
 
 ### **🎟️ Preprocessing per BERT**
 Il preprocessing specifico per BERT prevede l'aggiunta di un token speciale all'inizio e alla fine di ogni frase, dopodiché si fa il padding/troncamento di ogni frase per avere una singola lunghezza costante di token. I token reali poi vengono differenziati dai token di padding attraverso una *attention mask*.
@@ -225,9 +316,9 @@ I parametri che si possono cambiare sono i seguenti (insieme ai valori impostati
 
 <br>
 
-<a name="inizializzazione_training"></a>
+<a name="bert_training"></a>
 
-### **🏋🏻 Inizializzazione del modello e training**
+### **🏋🏻 Fine Tuning e Training di BERT**
 L'ottimizzatore scelto è AdamW, una versione dell'ottimizzatore Adam. Nello specifico Adam (ADaptive Moment Estimation) combina l'idea del momentum con quella del Root Mean Squared Prop (RMSProp) e dunque permette di avere il momentum nelle direzioni dove il gradiente è sempre lo stesso e di smorzarlo quando fluttua in presenza di varianza. In generale ci si sta spostando verso versioni di Adam, come AdamW, in quanto riducono il rischio di overfitting.
 Ad AdamW sono stati passati gli iperparametri di BERT e sono stati impostati un *learning rate* pari a *1<sup>-4<sup>* e un *epsilon* pari a *1<sup>-8<sup>*.
 
@@ -237,7 +328,7 @@ Il training è stato fatto su 5 epoche, con una batch size di 16 e *BCE with Log
 
 <br>
 
-Di seguito i risultati:
+Di seguito i risultati dell'addestramento:
 | Epoch  |  Batch  |  Train Loss  |  Val Loss  |  Val Acc  |  Elapsed |
 |--------|---------|--------------|------------|-----------|----------|
 |   1    |    -    |   0.171176   |  0.056176  |   0.98    |  923.54  |
@@ -253,12 +344,68 @@ Di seguito i risultati:
 
 <br>
 
+<a name="nn"></a>
+
+## **🌐 Rete Neurale (LSTM)**
+La rete neurale che abbiamo implementato è una LSTM (Long Short-Term Memory) bidirezionale, che è una variante della LSTM classica.
+La LSTM bidirezionale è una rete neurale ricorrente che utilizza due LSTM, una per ogni direzione, per processare una sequenza di input. Questo permette alla rete di utilizzare informazioni sia da sinistra a destra che da destra a sinistra, in modo da poter prevedere meglio il prossimo token a prescindere dalla lunghezza della sequenza dei token.
+
+<p align="center">
+    <img src="./images/NN_structure.png" alt="nn structure" width="800">
+</p>
+
+<br>
+
+<a name="nn_preprocessing"></a>
+
+### **📖 Preprocessing per la rete neurale**
+Come prima cosa si deve costruire un vocabolario che include tutte le parole uniche presenti nell'input e si assegna a ciascuna di essere un indice univoco, che verrà utilizzato successivamente per codificare le stringhe in input in vettori di numeri interi, che quindi possono essere elaborati dalla rete neurale del modello.  
+La creazione del vocabolario è stata possibile grazie al metodo `.fit_on_texts()` della classe `Tokenizer` di Keras, che prende in input una lista di stringhe e costruisce un vocabolario a partire da esse. Successivamente si è utilizzato il metodo `.texts_to_sequences()` per convertire le stringhe in input in sequenze di interi, che sono state poi utilizzate per creare i vettori di embedding.
+
+Successivamente il metodo `.texts_to_sequences()` è stato utilizzato per convertire le stringhe in input in sequenze di interi utilizzando gli indici presenti nel vocabolario creato in precedenza.
+
+Dopo questa operazione abbiamo utilizzato il metodo `.pad_sequences()` per fare un padding (o troncare) alle sequenze di input, in modo che risultino tutte della stessa lunghezza e da poterle utilizzare come input per la rete neurale.
+
+A questo punto si può creare una matrice di embedding utilizzando i pesi pre-addestrati di GloVe, in modo da rappresentare le parole in un vettore di dimensione fissa.  
+GloVe è un modello di embedding che è stato addestrato su un corpus di testo molto grande, in modo da poter ottenere embedding di alta qualita.  
+I pesi pre-addestrati di GloVe che abbiamo utilizzato sono stati reperiti dal [sito ufficiale](https://nlp.stanford.edu/projects/glove/) del progetto.
+
+<br>
+
+<a name="nn_training"></a>
+
+### **Fine Tuning e Training della rete**
+Dato che ci troviamo in un problema di classificazione multilabel, abbiamo utilizzato una funzione di attivazione *sigmoid* per l'output finale, che ci permette di ottenere un valore compreso tra 0 e 1 per ogni classe. Combinata con la funzione loss scelta, la *Binary Cross-Entropy (BCE)*, questa funzione di attivazione può essere utilizzata per la classificazione multilabel in quanto ogni neurone di output rappresenta una classe e ha una propria funzione di attivazione.
+La BCE può essere utilizzata per calcolare la loss per ogni neurone di output, in modo da poter ottenere una loss per ogni classe. Questa loss viene poi sommata per ottenere la loss totale.
+
+Il training è stato effettuato su 5 epoche, con una batch size di 16.
+
+<br>
+
+Di seguito i risultati dell'addestramento:
+| Epoch |   Batch   |  Train Loss  |  Train Acc  |  Val Loss  | Val Acc |  Elapsed |
+|-------|-----------|--------------|-------------|------------|---------|----------|
+|   1   | 2163/2163 |    0.1898    |   0.9126    |   0.0686   |  0.9877 |   165s   |
+|   2   | 2163/2163 |    0.1482    |   0.9436    |   0.0646   |  0.9938 |   139s   |
+|   3   | 2163/2163 |    0.1347    |   0.9491    |   0.0531   |  0.9717 |   133s   |
+|   4   | 2163/2163 |    0.1240    |   0.9071    |   0.0567   |  0.9882 |   132s   |
+|   5   | 2163/2163 |    0.1142    |   0.8751    |   0.0628   |  0.8043 |   132s   |
+
+<br>
+
+---
+
+<br>
+
 <a name="risultati"></a>
 
 ## **🔍 Risultati**
-Dopo aver concluso l'addestramento del modello siamo passati alla sua valutazione con l'ausilio del test set, producendo i seguenti risultati:
-- Accuracy: 0.9563951504077207
-- Hamming score: 0.8307334246963753
+Dopo aver concluso l'addestramento dei due modelli siamo passati alla sua valutazione con l'ausilio del test set, producendo i seguenti risultati:
+
+|  Modello  |  Accuracy          |  Hamming Score     |
+| --------- | :----------------: | :-----------------:|
+| BERT      | 0.9563951504077207 | 0.8307334246963753 |
+| NN        | 0.0000000000000000 | 0.0000000000000000 |
 
 L'**accuratezza** è una metrica comune per valutare la performance di un modello di classificazione. Si calcola come il numero di predizioni corrette su totale di predizioni fatte. In una classificazione multilabel, l'accuratezza è il rapporto tra il numero di etichette predette correttamente e il numero totale di etichette predette.  
 Nel nostro caso, l'accuratezza è alta ma bisogna considerare che il test set è sbilanciato in quanto non è stato modificato per poter confrontare i risultati con quelli ottenuti dagli altri partecipanti della challenge.
