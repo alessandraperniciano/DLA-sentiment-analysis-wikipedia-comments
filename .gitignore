@@ -154,3 +154,4 @@ cython_debug/
 data/glove.6B.50d.txt
 .DS_Store
 .vscode/launch.json
+models/bert_classifier.pt

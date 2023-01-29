@@ -438,13 +438,7 @@ class BertClassifier(nn.Module):
 
         return logits
 
-def try_me(text):
-    og_string = text
-    text = cleaning(text)
-    text, text_mask = preprocessing_for_bert([text])
-    text_dataset = TensorDataset(text, text_mask)
-    text_sampler = SequentialSampler(text_dataset)
-    text_dataloader = DataLoader(text_dataset, sampler=text_sampler, batch_size=1)
+def load_classifier():
     classifier = BertClassifier()
     #Controlla che il file esista bert_classifier.pt
     if os.path.exists('models/bert_classifier.pt'):
@@ -453,6 +447,15 @@ def try_me(text):
         print("Classifier not found")
         print("Please train the model first")
         exit()
+    return classifier
+
+def try_me(text, classifier):
+    og_string = text
+    text = cleaning(text)
+    text, text_mask = preprocessing_for_bert([text])
+    text_dataset = TensorDataset(text, text_mask)
+    text_sampler = SequentialSampler(text_dataset)
+    text_dataloader = DataLoader(text_dataset, sampler=text_sampler, batch_size=1)
     
     prob_text = bert_predict(classifier,text_dataloader)
     outputs = []
@@ -471,6 +474,7 @@ def try_me(text):
 
 if __name__ == "__main__":
     flag = False
+    classifier = load_classifier()
     while not flag:
         print("")
         print("Enter a phrase and I tell you if it's toxic")
@@ -479,4 +483,4 @@ if __name__ == "__main__":
         if string_input == '':
             flag = True
         else:
-            try_me(string_input)
+            try_me(string_input, classifier)
