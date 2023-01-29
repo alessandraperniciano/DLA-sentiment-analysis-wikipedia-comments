@@ -46,6 +46,10 @@ Per entrambi gli esperimenti è stato utilizzato il dataset [Toxic Comment Class
 
 Dopo aver clonato la repository, se si vuole utilizzare la demo per la classificazione dei commenti bisogna installare le dipendenze del progetto nel proprio virtual enviroment.
 
+Requisiti per l'utilizzo del progetto: 
+- python 3.8+
+- pip 20.0+
+
 Compatibilità con i sistemi operativi:
 - Windows 10/11
     - *testato con terminale GitBash*
@@ -67,7 +71,8 @@ Le demo messe a disposizione per provare i classificatori già addestrati sono [
 
 ### **🔩 Setup delle venv tramite script**
 
-Una volta clonata questa repository, tramite terminale bash è necessario spostarsi nella cartella della repository
+Una volta clonata questa repository, tramite terminale bash è necessario spostarsi nella cartella della repository.  
+
 ```bash
 cd <path_to_this_repo>
 ```
@@ -101,10 +106,16 @@ Una volta entrati all'interno della venv si può far partire la demo per utilizz
 
 BERT:  
 ```bash
+#Windows:
+python try_BERT.py
+#MacOS/Linux:
 python3 try_BERT.py
 ```  
 NN:  
 ```bash
+#Windows:
+python try_NN.py
+#MacOS/Linux:
 python3 try_NN.py
 ```
 
@@ -118,6 +129,7 @@ Se si vuole creare manualmente le venv per BERT è possibile farlo con i seguent
 ```bash
 cd <path_to_this_repo>
 
+
 python3 -m venv .venvBERT
 
 #MAC:
@@ -125,7 +137,7 @@ source .venvBERT/bin/activate
 #Windows:
 source .venvBERT/Scripts/activate
 
-pip3 install -r requirementsBERT.txt
+pip3 install -r requirementsBERT.txt --default-timeout=100
 ```
 Dopodiché è possibile lanciare la demo con il comando:
     
@@ -147,7 +159,7 @@ source .venvNN/bin/activate
 #Windows:
 source .venvNN/Scripts/activate
 
-pip3 install -r requirementsNN.txt
+pip3 install -r requirementsNN.txt --default-timeout=100s
 ```
 Dopodiché è possibile lanciare la demo con il comando:
     
