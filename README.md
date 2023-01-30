@@ -144,15 +144,7 @@ pip3 install -r requirementsBERT.txt --default-timeout=100
 #Windows
 pip install -r requirementsBERT.txt --default-timeout=100
 ```
-Dopodiché è possibile lanciare la demo con il comando:
-    
-```bash
-#MacOS/Linux
-python3 try_BERT.py
-#Windows
-python try_BERT.py
-```
-Verrà chiesto di inserire un commento, il quale verrà classificato in base al modello già addestrato presente nella repository.
+Dopodiché è possibile lanciare replicare gli esperimenti o utilizzare le demo.
 
 <br>
 
@@ -175,15 +167,7 @@ pip3 install -r requirementsNN.txt --default-timeout=100s
 #Windows
 pip install -r requirementsNN.txt --default-timeout=100s
 ```
-Dopodiché è possibile lanciare la demo con il comando:
-    
-```bash
-#MacOS/Linux
-python3 try_NN.py
-#Windows
-python try_NN.py
-```
-Verrà chiesto di inserire un commento, il quale verrà classificato in base al modello già addestrato presente nella repository.
+Dopodiché è possibile lanciare replicare gli esperimenti o utilizzare le demo.
 
 <br>
 
@@ -194,12 +178,21 @@ Una volta entrati all'interno della venv si può far partire la demo per utilizz
 
 BERT (`.venvBERT`):  
 ```bash
+#MacOS/Linux
 python3 try_BERT.py
+#Windows
+python try_BERT.py
 ```  
 NN (`.venvNN`):  
 ```bash
+#MacOS/Linux
 python3 try_NN.py
+#Windows
+python try_NN.py
 ```
+Verrà chiesto di inserire un commento, il quale verrà classificato in base al modello già addestrato presente nella repository.
+NB: per funzionare le demo richiedono la presenza di un modello già trainato e salvato
+
 
 >Per disattivare la venv attiva al momento è necessario eseguire il comando `deactivate` sul terminale, dopodiché è possibile attivare la venv desiderata con i comandi visti sopra *(saltando la parte di creazione della venv se già effettuata)*.
 
