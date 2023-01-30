@@ -383,11 +383,11 @@ Il training è stato fatto su 5 epoche, con una batch size di 16 e *BCE with Log
 Di seguito i risultati dell'addestramento:
 | Epoch  |  Batch  |  Train Loss  |  Val Loss  |  Val Acc  |  Elapsed |
 |--------|---------|--------------|------------|-----------|----------|
-|   1    |    -    |   0.171176   |  0.056176  |   0.98    |  923.54  |
-|   2    |    -    |   0.123939   |  0.050089  |   0.98    |  924.27  |
-|   3    |    -    |   0.102258   |  0.050089  |   0.98    |  914.36  |
-|   4    |    -    |   0.102119   |  0.050089  |   0.98    |  924.47  |
-|   5    |    -    |   0.102489   |  0.050089  |   0.98    |  914.96  |
+|   1    |    -    |   0.182094   |  0.056498   |   0.98    |  1004.87  |
+|   2    |    -    |   0.144736   |  0.060822   |   0.98    |  1004.99 |
+|   3    |    -    |   0.124003   |  0.057070  |   0.98    |  996.71  |
+|   4    |    -    |   0.098667   |  0.062670  |   0.97    |  1001.37  |
+|   5    |    -    |   0.075881   |  0.072336  |   0.97    |  981.80  |
 
 
 <br>
@@ -433,11 +433,11 @@ Il training è stato effettuato su 5 epoche, con una batch size di 16.
 Di seguito i risultati dell'addestramento:
 | Epoch |   Batch   |  Train Loss  |  Train Acc  |  Val Loss  | Val Acc |  Elapsed |
 |-------|-----------|--------------|-------------|------------|---------|----------|
-|   1   | 2163/2163 |    0.1898    |   0.9126    |   0.0686   |  0.9877 |   165s   |
-|   2   | 2163/2163 |    0.1482    |   0.9436    |   0.0646   |  0.9938 |   139s   |
-|   3   | 2163/2163 |    0.1347    |   0.9491    |   0.0531   |  0.9717 |   133s   |
-|   4   | 2163/2163 |    0.1240    |   0.9071    |   0.0567   |  0.9882 |   132s   |
-|   5   | 2163/2163 |    0.1142    |   0.8751    |   0.0628   |  0.8043 |   132s   |
+|   1   | 2165/2165 |    0.2011    |   0.9102    |   0.0686   |  0.9947 |   165s   |
+|   2   | 2165/2165 |    0.1558    |   0.9421    |   0.0646   |  0.9900 |   139s   |
+|   3   | 2165/2165 |    0.1415    |   0.92151    |   0.0531   |  0.9948 |   133s   |
+|   4   | 2165/2165 |    0.1300    |   0.8982    |   0.0567   |   0.9510 |   132s   |
+|   5   | 2165/2165 |    0.1193    |   0.8302    |   0.0619   |  0.7971 |   132s   |
 
 <br>
 
@@ -453,7 +453,7 @@ Dopo aver concluso l'addestramento dei due modelli siamo passati alla sua valuta
 |  Modello  |  Accuracy          |  Hamming Score     |
 | --------- | :----------------: | :-----------------:|
 | BERT      | 0.9563951504077207 | 0.8307334246963753 |
-| NN        | 0.0000000000000000 | 0.0000000000000000 |
+| NN        | 0.9517125678618692 | 0.8154193629059989 |
 
 L'**accuratezza** è una metrica comune per valutare la performance di un modello di classificazione. Si calcola come il numero di predizioni corrette su totale di predizioni fatte. In una classificazione multilabel, l'accuratezza è il rapporto tra il numero di etichette predette correttamente e il numero totale di etichette predette.  
 Nel nostro caso, l'accuratezza è alta ma bisogna considerare che il test set è sbilanciato in quanto non è stato modificato per poter confrontare i risultati con quelli ottenuti dagli altri partecipanti della challenge.
