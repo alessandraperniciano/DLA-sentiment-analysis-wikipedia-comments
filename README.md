@@ -129,20 +129,28 @@ Se si vuole creare manualmente le venv per BERT è possibile farlo con i seguent
 ```bash
 cd <path_to_this_repo>
 
-
+#MacOS/Linux
 python3 -m venv .venvBERT
+#Windows
+python -m venv .venvBERT
 
-#MAC:
+#MacOS/Linux
 source .venvBERT/bin/activate
 #Windows:
 source .venvBERT/Scripts/activate
 
+#MacOS/Linux
 pip3 install -r requirementsBERT.txt --default-timeout=100
+#Windows
+pip install -r requirementsBERT.txt --default-timeout=100
 ```
 Dopodiché è possibile lanciare la demo con il comando:
     
 ```bash
+#MacOS/Linux
 python3 try_BERT.py
+#Windows
+python try_BERT.py
 ```
 Verrà chiesto di inserire un commento, il quale verrà classificato in base al modello già addestrato presente nella repository.
 
@@ -152,19 +160,28 @@ Per quanto riguarda la creazione manuale della venv per la rete neurale LSTM, i 
 ```bash
 cd <path_to_this_repo>
 
+#MacOS/Linux
 python3 -m venv .venvNN
+#Windows
+python -m venv .venvNN
 
-#MAC:
+#MacOS/Linux
 source .venvNN/bin/activate
-#Windows:
+#Windows
 source .venvNN/Scripts/activate
 
+#MacOS/Linux
 pip3 install -r requirementsNN.txt --default-timeout=100s
+#Windows
+pip install -r requirementsNN.txt --default-timeout=100s
 ```
 Dopodiché è possibile lanciare la demo con il comando:
     
 ```bash
+#MacOS/Linux
 python3 try_NN.py
+#Windows
+python try_NN.py
 ```
 Verrà chiesto di inserire un commento, il quale verrà classificato in base al modello già addestrato presente nella repository.
 
