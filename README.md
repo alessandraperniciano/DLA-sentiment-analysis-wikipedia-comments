@@ -256,15 +256,20 @@ Il nostro preprocessing consiste nel manipolare il dataset in modo da eliminare 
 Il dataset risulta essere molto sbilanciato, per questo motivo è stato optato per un subsampling della classe dominante, che risulta essere quella con tutte le classi poste a zero.  
 Si è scelto di utilizzare la proporzione 50/50, dove metà del dataset risultano essere commenti "puliti", mentre l'altra metà dei record ha un qualche grado di tossicità.
 
-Il dataset è sceso a 32450 record, di cui:
-- 16225 sono non tossici
-- 15294 presentano almeno la label "toxic"
-- 1595 presentano almeno la label "severe_toxic"
-- 8449 presentano almeno la label "obscene"
-- 478 presentano almeno la label "threat"
-- 7877 presentano almeno la label "identity_hate"
+Il dataset 34586  è sceso a  record, di cui:
+- 20826 sono non tossici
+- 13760 presentano almeno la label "toxic"
+- 1443 presentano almeno la label "severe_toxic"
+- 7592 presentano almeno la label "obscene"
+- 434 presentano almeno la label "threat"
+- 7096 presentano almeno la label "insult"
+- 1255 presentano almeno la label "identity_hate"
 
 <br>
+
+### **✂️ Riduzione del test set**
+
+Il test set è stato ridotto in quanto gli autori della challenge hanno rilasciato le label di solo 63978  commenti, mentre il test set originale era composto da 153164 commenti.
 
 <a name="pulizia"></a>
 
@@ -433,11 +438,11 @@ Il training è stato effettuato su 5 epoche, con una batch size di 16.
 Di seguito i risultati dell'addestramento:
 | Epoch |   Batch   |  Train Loss  |  Train Acc  |  Val Loss  | Val Acc |  Elapsed |
 |-------|-----------|--------------|-------------|------------|---------|----------|
-|   1   | 2165/2165 |    0.2011    |   0.9102    |   0.0686   |  0.9947 |   165s   |
-|   2   | 2165/2165 |    0.1558    |   0.9421    |   0.0646   |  0.9900 |   139s   |
-|   3   | 2165/2165 |    0.1415    |   0.92151    |   0.0531   |  0.9948 |   133s   |
-|   4   | 2165/2165 |    0.1300    |   0.8982    |   0.0567   |   0.9510 |   132s   |
-|   5   | 2165/2165 |    0.1193    |   0.8302    |   0.0619   |  0.7971 |   132s   |
+|   1   | 2162/2162 |    0.1983     |   0.9222    |   0.0623   |  0.9948 |   165s   |
+|   2   | 2162/2162 |     0.1537    |   0.9557    |   0.0602   |  0.9948 |   139s   |
+|   3   | 2162/2162 |    0.1394    |   0.9461    |   0.0531   |  0.9946 |   133s   |
+|   4   | 2162/2162 |    0.1289    |   0.9106    |   0.0567   |   0.9935 |   132s   |
+|   5   | 2162/2162 |    0.1193    |   0.8762     |   0.0619   |  0.9035 |   132s   |
 
 <br>
 
@@ -461,3 +466,5 @@ Nel nostro caso, l'accuratezza è alta ma bisogna considerare che il test set è
 L'**hamming score**, invece, si concentra sul numero di etichette predette correttamente su un numero totale di etichette possibili, quindi risulta una metrica attendibile nelle classificazioni multi-label.
 In altre parole, l'hamming score misura il grado di somiglianza tra le etichette predette e quelle effettive, un punteggio più alto indica che le etichette predette sono più simili a quelle effettive.  
 L'hamming score calcolato sui nostri risultati è soddisfacente e ci permette di dire che il modello è in grado di predire correttamente un numero elevato di etichette.
+
+Dalle metriche riportate possiamo inoltre notare la migliore efficienza predittiva del modello basato sui transformer. 
